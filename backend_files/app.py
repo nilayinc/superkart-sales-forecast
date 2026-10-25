@@ -13,6 +13,10 @@ try:
 except Exception as e:
     model = joblib.load('backend_files/superkart_model.joblib')
 
+@app.route("/")
+def home():
+    return jsonify({"message": "SuperKart Flask API is running!"})
+
 @app.route('/v1/predict', methods=['POST'])
 def predict():
     try:
