@@ -33,15 +33,12 @@ with tab1:
         product_sugar = st.selectbox("Product Sugar Content", ["Low Sugar", "Regular", "No Sugar"])
         product_allocated_area = st.number_input("Product Allocated Area Ratio", min_value=0.0, max_value=0.5, value=0.027, format="%.4f")
         product_mrp = st.number_input("Product MRP", min_value=10.0, max_value=300.0, value=117.08)
-        product_type = st.selectbox("Product Type", [
-            "Fruits and Vegetables", "Snack Foods", "Frozen Foods", "Dairy",
-            "Household", "Baking Goods", "Canned", "Health and Hygiene",
-            "Meat", "Soft Drinks", "Breads", "Hard Drinks", "Others",
-            "Starchy Foods", "Breakfast", "Seafood"
+        product_type_category = st.selectbox("Product Type Category", [
+            "Dairy", "Meat", "Fruits and Vegetables", "Breakfast", "Breads", "Seafood",
         ])
 
     with col2:
-        store_id = st.selectbox("Store ID", ["OUT001", "OUT002", "OUT003", "OUT004"])
+        # store_id = st.selectbox("Store ID", ["OUT001", "OUT002", "OUT003", "OUT004"])
         store_size = st.selectbox("Store Size", ["Small", "Medium", "High"])
         store_city_type = st.selectbox("Store Location City Type", ["Tier 1", "Tier 2", "Tier 3"])
         store_type = st.selectbox("Store Type", ["Departmental Store", "Food Mart", "Supermarket Type1", "Supermarket Type2"])
@@ -53,8 +50,7 @@ with tab1:
             "Product_Sugar_Content": product_sugar,
             "Product_Allocated_Area": product_allocated_area,
             "Product_MRP": product_mrp,
-            "Product_Type": product_type,
-            "Store_Id": store_id,
+            "Product_Type_Category": product_type_category,
             "Store_Size": store_size,
             "Store_Location_City_Type": store_city_type,
             "Store_Type": store_type,
