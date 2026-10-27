@@ -4,7 +4,7 @@ import pandas as pd
 import io
 
 # Initialize Flask app
-app = Flask(__name__)
+superkart_api = Flask(__name__)
 
 # Load the pre-trained champion pipeline (preprocessor + model)
 model_path = 'superkart_model.joblib'
@@ -13,11 +13,11 @@ try:
 except Exception as e:
     model = joblib.load('backend/superkart_model.joblib')
 
-@app.route("/")
+@superkart_api.route("/")
 def home():
     return jsonify({"message": "SuperKart Flask API is running!"})
 
-@app.route('/v1/predict', methods=['POST'])
+@superkart_api.route('/v1/predict', methods=['POST'])
 def predict():
     try:
         # Parse request payload
@@ -33,7 +33,7 @@ def predict():
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 
-@app.route('/v1/predictbatch', methods=['POST'])
+@superkart_api.route('/v1/predictbatch', methods=['POST'])
 def predict_batch():
     try:
         # Ensure file was sent
@@ -56,4 +56,4 @@ def predict_batch():
         return jsonify({'error': str(e)}), 400
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=7860)
+    superkart_api.run(host='0.0.0.0', port=7860)
