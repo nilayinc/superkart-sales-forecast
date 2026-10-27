@@ -17,4 +17,5 @@ COPY . .
 EXPOSE 7860
 
 # Run app.py when the container launches
-CMD ["python", "app.py"]
+# CMD ["python", "app.py"]
+CMD ["gunicorn", "-w", "1", "--preload", "--timeout", "120", "-b", "0.0.0.0:7860", "app:superkart_api"]
