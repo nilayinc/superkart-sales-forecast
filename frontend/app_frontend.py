@@ -2,6 +2,7 @@ import streamlit as st
 import requests
 import pandas as pd
 import io
+import os
 
 # Configure page style
 st.set_page_config(
@@ -12,11 +13,10 @@ st.set_page_config(
 
 st.title("🛒 SuperKart Sales Forecasting Service")
 st.write("Deploys a containerized forecasting pipeline using our Tuned Random Forest model to predict outlet sales revenue.")
-
 # Sidebar URL config
 backend_url = st.sidebar.text_input(
     "Backend Service URL",
-    value="http://backend-service:7860",
+    value=os.getenv("BACKEND_URL", "http://backend-service:7860"),
     help="Change this if deploying on a custom domain or outside Docker network"
 )
 
@@ -63,7 +63,11 @@ with tab1:
 
         with st.spinner("Calling prediction API..."):
             try:
-                res = requests.post(f"{backend_url}/v1/predict", json=payload)
+                res = res = requests.post(
+                    f"{backend_url.rstrip('/')}/v1/predict",
+                    json=payload,
+                    timeout=(5, 120),
+                )
                 if res.status_code == 200:
                     prediction = res.json().get('Product_Store_Sales_Total_Predicted')
                     st.success(f"Predicted Sales Revenue: **${prediction:,.2f}**")
@@ -91,7 +95,11 @@ with tab2:
 
             with st.spinner("Processing batch on prediction server..."):
                 try:
-                    res = requests.post(f"{backend_url}/v1/predictbatch", files=files)
+                    res = requests.post(
+                        f"{backend_url.rstrip('/')}/v1/predictbatch",
+                        files=files,
+                        timeout=(5, 120),
+                    )
                     if res.status_code == 200:
                         predictions_dict = res.json()
                         preds_series = pd.Series(predictions_dict).astype(float)
